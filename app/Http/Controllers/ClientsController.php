@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\ClientAddRequest;
+
+
 use DB;
+use App\Client;
 
 class ClientsController extends Controller
 {
@@ -16,7 +20,7 @@ class ClientsController extends Controller
     {
         $countries = DB::table('Country')->orderBy('Name')->get();
         $industries = DB::table('industries')->orderBy('name')->get(); 
-        $clients = DB::table('clients')->orderBy('name')->get(); 
+        $clients = Client::orderBy('name')->get(); 
 
 
         return view('hr.addClient',compact('countries','industries','clients'));
@@ -53,7 +57,7 @@ class ClientsController extends Controller
           
           $name = $request->get('name'); 
 
-          $count = DB::table('clients')->whereRAW("name LIKE '%".$name."%'")
+          $count = Client::whereRAW("name LIKE '%".$name."%'")
                             ->count();
             
 
@@ -68,4 +72,18 @@ class ClientsController extends Controller
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
+
+     public function save(ClientAddRequest $request)
+    {
+          
+          echo "tester";
+         
+    } 
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 }

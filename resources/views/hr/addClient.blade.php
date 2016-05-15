@@ -104,7 +104,7 @@ session(['subtitle' => 'addClient']); ?>
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4">Parent Company :</label>
                                     <div class="col-md-6 col-sm-6">
-                                        <select class="form-control"  name="parent_company" data-fv-notempty="true">
+                                        <select class="form-control"  name="parent_company"  >
                                             <option value="0">None</option>
                                              @foreach($clients as $client)
                                             <option value="{!! $client->id !!}">{!! $client->name !!}</option>
@@ -117,23 +117,33 @@ session(['subtitle' => 'addClient']); ?>
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4" for="description">Description :</label>
                                     <div class="col-md-6 col-sm-6">
-                                        <textarea class="form-control" id="description" name="description" rows="3" data-fv-notempty="true"   >{{ old('description') }}</textarea>
+                                        <textarea class="form-control" id="description" name="description" rows="3" >{{ old('description') }}</textarea>
                                     </div>
                                 </div> 
 
-                                 
-                                <div class="form-group">
+                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4" for="phone">Phone :</label>
                                     <div class="col-md-6 col-sm-6">
                                         <input class="form-control" type="text" id="phone"  name="phone" data-fv-notempty="true"   value="{{ old('phone') }}" />
                                     </div>
                                 </div>
 
+                                 <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4" for="url">URL :</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input class="form-control" type="text" id="url"  name="url" value="{{ old('url') }}" />
+                                    </div>
+                                </div>
+
+                                <h4>Address</h4>
+                                <hr> 
+                               
+
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4">Country :</label>
                                     <div class="col-md-6 col-sm-6">
                                         <select class="form-control" id="country"  name="country" data-fv-notempty="true">
-                                            <option value="0">None</option>
+                                            <option value="">Please Chose</option>
                                              @foreach($countries as $country)
                                             <option value="{!! $country->Code !!}">{!! $country->Name !!}</option>
                                             @endforeach
@@ -152,7 +162,19 @@ session(['subtitle' => 'addClient']); ?>
                                     </div>
                                 </div>
 
-                                 
+                                 <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4" for="postal_code">Postal Code :</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input class="form-control" type="text" id="postal_code"  name="postal_code" value="{{ old('postal_code') }}" />
+                                    </div>
+                                </div>
+
+                                 <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4" for="address">Address :</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <textarea class="form-control" id="address" name="address" rows="3" data-fv-notempty="true">{{ old('address') }}</textarea>
+                                    </div>
+                                </div> 
  
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4"></label>

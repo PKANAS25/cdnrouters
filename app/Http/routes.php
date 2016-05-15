@@ -59,5 +59,6 @@ Route::get('hrm/home', 'HomeController@home');
  
     Route::get('hrm/clients/add', ['middleware' => 'ClientAdd','uses'=>'ClientsController@add']);
     Route::get('/cityLoader', 'ClientsController@cityLoader'); 
-    Route::get('/clientAddCheck', 'ClientsController@clientAddCheck'); 
+    Route::get('/clientAddCheck', 'ClientsController@clientAddCheck');
+    Route::post('hrm/clients/add', ['middleware' => 'ClientAdd','uses'=>'ClientsController@save']); 
 });
