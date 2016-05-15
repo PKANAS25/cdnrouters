@@ -132,12 +132,23 @@ session(['subtitle' => 'addClient']); ?>
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4">Country :</label>
                                     <div class="col-md-6 col-sm-6">
-                                        <select class="form-control"  name="country" data-fv-notempty="true">
+                                        <select class="form-control" id="country"  name="country" data-fv-notempty="true">
                                             <option value="0">None</option>
                                              @foreach($countries as $country)
                                             <option value="{!! $country->Code !!}">{!! $country->Name !!}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+
+                                 <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4">City :</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div id="cityLoader">
+                                            <select class="form-control"  name="city" >
+                                                <option value="">Please choose</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -166,50 +177,24 @@ session(['subtitle' => 'addClient']); ?>
         $(document).ready(function() {
             App.init(); 
 
-            $('#dob').datepicker({
-                format: "yyyy-mm-dd",
-                autoclose: true
-            }).on('changeDate', function(e) { 
-            $('#eForm').formValidation('revalidateField', 'dob');
-            });
+<!-- -------------------------------------------------==================--------------------------------------------- -->
 
-            
-            $('#joining_date').datepicker({
-                format: "yyyy-mm-dd",
-                autoclose: true
-                }).on('changeDate', function(e) { 
-                    $('#eForm').formValidation('revalidateField', 'joining_date');
-                });
+  function cityLoader()
+    {
+       
+      var country = $("#country").val(); 
+       
 
-             $('#passport_expiry').datepicker({
-                format: "yyyy-mm-dd",
-                autoclose: true
-                }).on('changeDate', function(e) { 
-                    $('#eForm').formValidation('revalidateField', 'passport_expiry');
-                });
-             
-             $('#labour_card_expiry').datepicker({
-                format: "yyyy-mm-dd",
-                autoclose: true
-                }).on('changeDate', function(e) { 
-                    $('#eForm').formValidation('revalidateField', 'labour_card_expiry');
-                });
-            
-             $('#visa_issue').datepicker({
-                format: "yyyy-mm-dd",
-                autoclose: true
-                }).on('changeDate', function(e) { 
-                    $('#eForm').formValidation('revalidateField', 'visa_issue');
-                });  
+       $.get('/cityLoader',{country:country }, function(branchBlade){ 
+              
+              $("#cityLoader").html(branchBlade); 
+              
+          });
+    }   
 
-              $('#visa_expiry').datepicker({
-                format: "yyyy-mm-dd",
-                autoclose: true
-                }).on('changeDate', function(e) { 
-                    $('#eForm').formValidation('revalidateField', 'visa_expiry');
-                });         
-                                             
-            //$('#eForm').formValidation();
+<!-- -------------------------------------------------==================--------------------------------------------- -->
+
+          
 
             $('#eForm').formValidation({
                 message: 'This value is not valid',
@@ -218,17 +203,15 @@ session(['subtitle' => 'addClient']); ?>
                 fields: {
                       
                 
-                    mobile: {
+                    phone: {
                         validators: {
                             notEmpty: {},
                             digits: {},
-                            phone: {
-                                country: 'AE'
-                            }
+                            
                         }
                     },
                  
-            lname: {
+            name: {
                      
                      verbose: false,
                      
@@ -236,19 +219,17 @@ session(['subtitle' => 'addClient']); ?>
                      
                      notEmpty: {},
                      remote: {
-                        url: '/employeeAddCheck' ,
-                        data: function(validator, $field, value) {
-                            return {                                 
-                                fname: validator.getFieldElements('fname').val(),
-                                mname: validator.getFieldElements('mname').val()
-                            };
-                        }
+                        url: '/clientAddCheck' ,
+                        
 
                     }
                 }
             }
         }
     })
+    .on('change', '[name="country"]', function(e) {
+         cityLoader();
+      })
     // This event will be triggered when the field passes given validator
     .on('success.validator.fv', function(e, data) {
         // data.field     --> The field name
@@ -258,7 +239,7 @@ session(['subtitle' => 'addClient']); ?>
 
          
 
-        if (data.field === 'lname'
+        if (data.field === 'name'
             && data.validator === 'remote'
             && (data.result.available === false || data.result.available === 'false'))
         {
@@ -272,12 +253,12 @@ session(['subtitle' => 'addClient']); ?>
                 .addClass('has-warning')
 
                 // Show message
-                .find('small[data-fv-validator="remote"][data-fv-for="lname"]')
+                .find('small[data-fv-validator="remote"][data-fv-for="name"]')
                     .show();
         }
 
 
-        if (data.field === 'lname'
+        if (data.field === 'name'
             && data.validator === 'remote'
             && (data.result.available === true || data.result.available === 'true'))
         {
@@ -291,7 +272,7 @@ session(['subtitle' => 'addClient']); ?>
                 .addClass('has-success')
 
                 // Show message
-                .find('small[data-fv-validator="remote"][data-fv-for="lname"]')
+                .find('small[data-fv-validator="remote"][data-fv-for="name"]')
                     .show();
         }
 
@@ -303,7 +284,7 @@ session(['subtitle' => 'addClient']); ?>
         // when the field doesn't pass any validator
          
 
-        if (data.field === 'lname') {
+        if (data.field === 'name') {
             data.element
                 .closest('.form-group')
                 .removeClass('has-warning')
