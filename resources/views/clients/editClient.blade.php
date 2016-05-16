@@ -106,8 +106,8 @@ session(['subtitle' => 'addClient']); ?>
                                             @else
                                             <option value="0">None</option>
                                            @endif
-                                             @foreach($clients as $client)
-                                            <option value="{!! $client->id !!}">{!! $client->name !!}</option>
+                                             @foreach($clients as $cliente)
+                                            <option value="{!! $cliente->id !!}">{!! $cliente->name !!}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -259,8 +259,12 @@ session(['subtitle' => 'addClient']); ?>
                      
                      notEmpty: {},
                      remote: {
-                        url: '/clientAddCheck' ,
-                        
+                        url: '/clientEditCheck' ,
+                        data: function(validator, $field, value) {
+                            return {                                 
+                                clientId: {{$client->id}} 
+                            };
+                        }
 
                     }
                 }

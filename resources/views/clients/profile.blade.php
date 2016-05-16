@@ -58,6 +58,11 @@ session(['subtitle' => '']); ?>
                         <div class="profile-info">
                             <!-- begin table -->
                             <div class="table-responsive">
+                            @if (session('status'))
+                                        <div class="alert alert-success">
+                                            {{ session('status') }}   
+                                        </div>
+                                    @endif
                                 <table class="table table-profile table-striped">
                                     <thead>
                                         <tr>
@@ -227,15 +232,20 @@ session(['subtitle' => '']); ?>
                                 <thead>
                                     <tr>
                                     <th class="nosort">#</th>
-                                    <th>ID</th>
-                                    <th>Student</th> 
+                                    <th>Date</th> 
+                                    <th>Changes</th>
+                                    <th>Admin</th> 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr><td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
+                                    @foreach($changes AS $index => $change)
+                                    <tr>
+                                    <td>{{ $index+1 }}</td>
+                                    <td>{{ date('d-M-Y',strtotime($change->dated)) }} at {{ date('h:i:a',strtotime($change->dated)) }} </td>
+                                    <td>{!! $change->changes !!}</td>
+                                    <td>{{ $change->addedBy }}</td>
                                     </tr>
+                                    @endforeach
                                     </tbody>
                                     </table>
                              </div>

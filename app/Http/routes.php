@@ -67,6 +67,8 @@ Route::get('hrm/home', 'HomeController@home');
     Route::get('hrm/clients/index', 'ClientsController@index');
 
     Route::get('hrm/clients/{id?}/edit', ['middleware' => 'ClientAdd','uses'=>'ClientsController@edit']);
+    Route::post('hrm/clients/{id?}/edit', ['middleware' => 'ClientAdd','uses'=>'ClientsController@editProcess']);
+    Route::get('/clientEditCheck', 'ClientsController@clientEditCheck');
 
 
 });
