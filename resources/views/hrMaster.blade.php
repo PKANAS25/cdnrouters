@@ -127,7 +127,7 @@
 	<script>
 		$(document).ready(function() {
 			App.init(); 
-            DashboardV2.init();                                
+            //                               
 			$('#data-table').dataTable( {
 		        "paging":   false,
 		        "ordering": true,

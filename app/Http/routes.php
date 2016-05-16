@@ -61,4 +61,12 @@ Route::get('hrm/home', 'HomeController@home');
     Route::get('/cityLoader', 'ClientsController@cityLoader'); 
     Route::get('/clientAddCheck', 'ClientsController@clientAddCheck');
     Route::post('hrm/clients/add', ['middleware' => 'ClientAdd','uses'=>'ClientsController@save']); 
+
+    Route::get('hrm/clients/{id?}/profile', 'ClientsController@profile');
+
+    Route::get('hrm/clients/index', 'ClientsController@index');
+
+    Route::get('hrm/clients/{id?}/edit', ['middleware' => 'ClientAdd','uses'=>'ClientsController@edit']);
+
+
 });

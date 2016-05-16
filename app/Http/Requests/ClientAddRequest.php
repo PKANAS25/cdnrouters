@@ -31,6 +31,7 @@ class ClientAddRequest extends Request
             'phone'=>'required',
             'country'=>'required',
             'address'=>'required',
+            'fileToUpload'=>'image|max:615|mimes:jpeg,jpg',
         ];
     }
 }

@@ -28,7 +28,7 @@
                             <span>Clients</span>
                         </a>
                         <ul class="sub-menu">
-                            <li><a href="\hrm\clients">List of Clients</a></li>
+                            <li @if(session('subtitle') == 'clientsList') class="active" @endif><a href="\hrm\clients\index">List of Clients</a></li>
                             <li @if(session('subtitle') == 'addClient') class="active" @endif><a href="\hrm\clients\add">Add Client</a></li>
                             <li><a href="email_inbox_v2.html">Search <i class="fa fa-binoculars text-theme m-l-5"></i></a></li>
                             <li><a href="email_compose.html">Contacts <i class="fa fa-binoculars text-theme m-l-5"></i></a></li>

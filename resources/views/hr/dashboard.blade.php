@@ -142,6 +142,11 @@ session(['subtitle' => '']); ?>
             <!-- begin row -->
             
             <!-- end row --></div>
-        </div>
-               
+        </div>  
+
+        <script>
+        $(document).ready(function() {
+               DashboardV2.init(); 
+           }); 
+    </script>
         @endsection

@@ -146,6 +146,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
        'Zizaco\Entrust\EntrustServiceProvider',
+        'Intervention\Image\ImageServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider',
 
     ],
 
@@ -195,6 +197,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Entrust' => 'Zizaco\Entrust\EntrustFacade',
+        'Image' => 'Intervention\Image\Facades\Image',
+        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 
     ],
 
