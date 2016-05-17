@@ -33,7 +33,8 @@ session(['subtitle' => '']); ?>
                         </div>
                         <div class="panel-body">
 
-                             
+                            <i class="fa fa-arrow-left"></i> <a href="{!! action('ClientsController@profile', base64_encode($contact->client)) !!}">Back to company profile </a>
+
                             <form name="eForm" id="eForm"  method="POST" autocomplete="OFF" class="form-horizontal form-bordered"  enctype="multipart/form-data"  data-fv-framework="bootstrap"  data-fv-message="Required Field"  data-fv-icon-invalid="glyphicon glyphicon-remove"  data-fv-icon-validating="glyphicon glyphicon-refresh">
 
                                 @foreach ($errors->all() as $error)

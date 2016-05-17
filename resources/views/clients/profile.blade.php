@@ -242,21 +242,32 @@ session(['subtitle' => '']); ?>
                       
                         <div class="tab-pane fade" id="default-tab-2">
                         <div class="panel-body">
+                        
+
+
                        <table id="data-table2" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                     <th class="nosort">#</th>
-                                    <th>Name</th>
-                                    <th>Position</th> 
+                                    <th>Contacted Person</th>
+                                    <th>Time</th>
+                                    <th>Call Details</th>  
+                                    <th>Staff</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr><td>&nbsp;</td>
+                                    <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                     </tr>
                                     </tbody>
                                     </table>
+                                    <span class="text-warning"><i class="fa fa-circle"></i> Important</span>&nbsp;&nbsp;&nbsp;&nbsp;  
+                                    <span class="text-success"><i class="fa fa-circle"></i> Casual</span>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                    <span class="text-danger"><i class="fa fa-circle"></i> Rejection</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                             
                         </div>
