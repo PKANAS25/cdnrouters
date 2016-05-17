@@ -29,11 +29,10 @@
                         </a>
                         <ul class="sub-menu">
                             <li @if(session('subtitle') == 'clientsList') class="active" @endif><a href="\hrm\clients\index">List of Clients</a></li>
+                            @if(Auth::user()->hasRole('ClientAdd'))
                             <li @if(session('subtitle') == 'addClient') class="active" @endif><a href="\hrm\clients\add">Add Client</a></li>
-                            <li><a href="email_inbox_v2.html">Search <i class="fa fa-binoculars text-theme m-l-5"></i></a></li>
-                            <li><a href="email_compose.html">Contacts <i class="fa fa-binoculars text-theme m-l-5"></i></a></li>
-                            <li><a href="email_detail.html">Industries</a></li> 
-                            
+                            @endif
+                            <li @if(session('subtitle') == 'filterClient') class="active" @endif><a href="\hrm\clients\filter">Filter <i class="fa fa-filter text-theme m-l-5"></i></a></li>  
                         </ul>
                     </li>
  <!-- **********************************************************Administrator****************************************************************************** -->                    
@@ -55,21 +54,20 @@
                         </ul>
                     </li>
                     @endif
- <!-- **********************************************************Administrator****************************************************************************** -->     
+ <!-- *************************************************************Settings*************************************************************************** -->                    
+                    @if( Auth::user()->hasRole('ContactAdd') || Auth::user()->hasRole('ClientAdd'))
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
-                            <i class="fa fa-database"></i>
-                            <span>Assets  </span>
+                            <i class="fa fa-cogs"></i>
+                            <span>Settings</span>
                         </a>
                         <ul class="sub-menu">
-                            <li><a href="extra_timeline.html">Assets Store</a></li>
-                            <li><a href="extra_coming_soon.html">Add Item</a></li>
-                            <li><a href="extra_search_results.html">Branch Assets</a></li>
-                            <li><a href="extra_invoice.html">Rooms</a></li>
-                             
+                            @if( Auth::user()->hasRole('ClientAdd'))<li><a href="chart-flot.html">Industries</a></li>@endif
+                             @if( Auth::user()->hasRole('ContactAdd'))<li><a href="chart-morris.html">Positions</a></li>@endif
                         </ul>
                     </li>
+                    @endif
                      
                      
                      

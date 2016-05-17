@@ -40,7 +40,7 @@
 					</li>
 					<li class="dropdown navbar-user">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-							<img src="/hr_assets/img/user-13.jpg" alt="" /> 
+							<img src="/hr_assets/img/user-12.jpg" alt="" /> 
 							<span class="hidden-xs">{!! Auth::user()->name; !!}</span> <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu animated fadeInLeft">

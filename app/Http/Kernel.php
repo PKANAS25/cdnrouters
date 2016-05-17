@@ -35,5 +35,6 @@ class Kernel extends HttpKernel
         'Superman' =>\App\Http\Middleware\Superman::class,
         'UserAdd' =>\App\Http\Middleware\UserAdd::class,
         'ClientAdd' =>\App\Http\Middleware\ClientAdd::class,
+        'ContactAdd' =>\App\Http\Middleware\ContactAdd::class,
     ];
 }

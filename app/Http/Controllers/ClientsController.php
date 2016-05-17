@@ -12,6 +12,7 @@ use App\Http\Requests\ClientAddRequest;
 
 use DB;
 use App\Client;
+use App\Contact;
 
 use Carbon\Carbon;
 
@@ -25,12 +26,14 @@ class ClientsController extends Controller
 
     public function index()
     {  
-        $clients = Client::select('clients.*','Country.Name AS countryName', 'City.Name AS cityName', 'status.status AS currentStatus' , 'bd_grade.grade AS bdGrade','industries.name AS industryName' )
+ 
+        $clients = Client::select(array('clients.*','Country.Name AS countryName', 'City.Name AS cityName', 'status.status AS currentStatus' , 'bd_grade.grade AS bdGrade','industries.name AS industryName',DB::raw('(SELECT count(id) FROM contacts WHERE contacts.client = clients.id) AS addedContacts')))  
                             ->leftjoin('Country','clients.country', '=', 'Country.Code')
                             ->leftjoin('City','clients.city', '=', 'City.ID')
                             ->leftjoin('status','clients.status', '=', 'status.id')
                             ->leftjoin('bd_grade','clients.bd_grade', '=', 'bd_grade.id')
                             ->leftjoin('industries','clients.industry', '=', 'industries.id') 
+                            ->where('deleted',0)
                             ->orderBy('clients.name')
                             ->get();
 
@@ -167,6 +170,31 @@ class ClientsController extends Controller
                             ->leftjoin('clients AS parenter','clients.parent_company', '=', 'parenter.id')
                             ->where('clients.id',$clientId)
                             ->first();
+       
+        $contacts = Contact::select('contacts.*','designations.position AS desig','users.name AS admin')
+                           ->leftjoin('users','contacts.addedBy', '=', 'users.id')
+                           ->leftjoin('designations','contacts.position', '=', 'designations.id')
+                           ->where('contacts.client',$clientId)
+                           ->where('contacts.deleted',0)
+                           ->orderBy('contacts.name')
+                           ->get();
+        
+        foreach($contacts AS $contact)
+        {
+            if (File::exists(base_path().'/public/uploads/contactPics/'.$contact->id.'.jpg'))
+            $contact->pic = 1 ; 
+            else 
+            $contact->pic=0;
+        }
+
+         $deletedContacts = Contact::select('contacts.*','designations.position AS desig','users.name AS admin')
+                           ->leftjoin('users','contacts.deletedBy', '=', 'users.id')
+                           ->leftjoin('designations','contacts.position', '=', 'designations.id')
+                           ->where('contacts.client',$clientId)
+                           ->where('contacts.deleted',1)
+                           ->orderBy('contacts.name')
+                           ->get();
+
 
         $subsidiaries = Client::select('name','id')->where('parent_company',$clientId)->get();  
 
@@ -182,7 +210,7 @@ class ClientsController extends Controller
        else
             $profile_pic = '/uploads/clientLogos/no_image.jpg';                   
 
-          return view('clients.profile',compact('clientId','client','profile_pic','subsidiaries','changes'));
+          return view('clients.profile',compact('clientId','client','profile_pic','subsidiaries','changes','contacts','deletedContacts'));
     }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

@@ -70,5 +70,22 @@ Route::get('hrm/home', 'HomeController@home');
     Route::post('hrm/clients/{id?}/edit', ['middleware' => 'ClientAdd','uses'=>'ClientsController@editProcess']);
     Route::get('/clientEditCheck', 'ClientsController@clientEditCheck');
 
+//-------------------------------ContactsController-----------------------------------------------    
+
+    Route::get('hrm/contacts/{id?}/add', ['middleware' => 'ContactAdd','uses'=>'ContactsController@add']);
+    Route::get('/contactAddCheck', 'ContactsController@contactAddCheck');
+    Route::post('hrm/contacts/{id?}/add', ['middleware' => 'ContactAdd','uses'=>'ContactsController@save']);
+
+    Route::post('/deleteClientContact', ['middleware' => 'ContactAdd','uses'=>'ContactsController@deleteClientContact']);
+    Route::post('/restoreClientContact', ['middleware' => 'ContactAdd','uses'=>'ContactsController@restoreClientContact']);
+
+    Route::get('hrm/contacts/{clientId?}/{contactId?}/edit', ['middleware' => 'ContactAdd','uses'=>'ContactsController@edit']);
+    Route::get('/contactEditCheck', 'ContactsController@contactEditCheck');
+    Route::post('hrm/contacts/{clientId?}/{contactId?}/edit', ['middleware' => 'ContactAdd','uses'=>'ContactsController@editProcess']);
+
+//-------------------------------ClientsControllerExtra-----------------------------------------------    
+ 
+    Route::get('hrm/clients/filter', 'ClientsControllerExtra@initiate');  
+    Route::post('hrm/clients/filter', 'ClientsControllerExtra@filterShow');   
 
 });

@@ -35,7 +35,11 @@ session(['subtitle' => '']); ?>
 
                         <div>
                             <div class="checkbox m-b-5 m-t-0">
-                                <a href="javascript:;" class="btn btn-inverse btn-xs m-r-5"><i class="fa fa-user"></i> New Contact</a>  
+                            @if(Auth::user()->hasRole('ContactAdd'))
+                                <a href="{{action('ContactsController@add',base64_encode($client->id))}}" class="btn btn-inverse btn-xs m-r-5"><i class="fa fa-user"></i> New Contact</a>  
+                             @else
+                             <a href="#" class="btn btn-default btn-xs m-r-5"><i class="fa fa-user"></i> New Contact</a>   
+                            @endif    
                             </div> 
 
                             
@@ -44,7 +48,11 @@ session(['subtitle' => '']); ?>
                             </div> 
  
                             <div class="checkbox m-b-5 m-t-0">
-                                <a href="{{action('ClientsController@edit',base64_encode($client->id))}}" class="btn btn-success btn-xs m-r-5"><i class="fa fa-edit"></i> Edit Profile</a>  
+                                @if(Auth::user()->hasRole('ClientAdd'))
+                                <a href="{{action('ClientsController@edit',base64_encode($client->id))}}" class="btn btn-success btn-xs m-r-5"><i class="fa fa-edit"></i> Edit Profile</a> 
+                                @else 
+                                <a href="#" class="btn btn-default btn-xs m-r-5"><i class="fa fa-edit"></i> Edit Profile</a> 
+                                @endif
                             </div> 
                         </div>
 
@@ -181,20 +189,50 @@ session(['subtitle' => '']); ?>
                                     <th>Position</th> 
                                     <th>Mobile</th> 
                                     <th>Phone</th> 
+                                    <th>Email</th>
                                     <th>Notes</th> 
                                     <th>Added</th> 
+                                    <th> </th> 
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @foreach($contacts AS $index => $contact)
                                     <tr>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
+                                    <td>{{ $index+1 }}</td>
+                                    <td>
+                                    <div class="navbar-user">
+                                    @if($contact->pic)<img src="/uploads/contactPics/{{ $contact->id }}.jpg" alt="" />@endif 
+                                    @if(Auth::user()->hasRole('ContactAdd'))
+                                    <a href="{{action('ContactsController@edit',[base64_encode($client->id),base64_encode($contact->id)])}}">{{ $contact->name }}</a>
+                                    @else
+                                    {{ $contact->name }}
+                                    @endif
+                                    </div>
+                                    </td>
+                                    <td>{{ $contact->desig }}</td>
+                                    <td>{{ $contact->mobile }}</td>
+                                    <td>{{ $contact->phone }} @if($contact->phone2) , {{ $contact->phone2 }} @endif</td>
+                                    <td>{{ $contact->email }}</td>
+                                    <td>{{ $contact->notes }}</td>
+                                    <td>{{ $contact->admin }}</td>
+                                    <td>
+                                    @if(Auth::user()->hasRole('ContactAdd'))
+                                    <div id="delDiv{{$contact->id}}">
+                                    <button class="btn btn-xs" id="deleteContact{{ $contact->id }}" value="{{ $contact->id }}"> <i class="fa fa-trash text-danger"></i></button>
+                                    </div>
+                                    <script type="text/javascript">
+                                                    $(document.body).on('click', '#deleteContact{{$contact->id}}', function(e){
+                                                        e.preventDefault();
+                                                        id = $(this).val(); 
+                                                         $.post('/deleteClientContact',{id:id,_token:'{{ csrf_token() }}' }, function(actionBlade){ 
+                                                            $("#delDiv{{$contact->id}}").html(actionBlade); 
+                                                        });
+                                                    });
+                                    </script>                
+                                    @endif
+                                    </td>
                                     </tr>
+                                    @endforeach
                                     </tbody>
                                     </table>
                             </div>
@@ -256,19 +294,49 @@ session(['subtitle' => '']); ?>
                          
                       <div class="tab-pane fade" id="default-tab-4">
                             <div class="panel-body">
-                             <table id="data-table4" class="table table-striped table-bordered">
+                             <table id="data-table" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                     <th class="nosort">#</th>
-                                    <th>ID</th>
-                                    <th>Student</th> 
+                                    <th>Name</th>
+                                    <th>Position</th> 
+                                    <th>Mobile</th> 
+                                    <th>Phone</th> 
+                                    <th>Email</th>
+                                    <th>Notes</th> 
+                                    <th>Deleted</th> 
+                                    <th> </th> 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr><td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
+                                    @foreach($deletedContacts AS $index => $contact)
+                                    <tr>
+                                    <td>{{ $index+1 }}</td>
+                                    <td>{{ $contact->name }}</td>
+                                    <td>{{ $contact->desig }}</td>
+                                    <td>{{ $contact->mobile }}</td>
+                                    <td>{{ $contact->phone }} @if($contact->phone2) , {{ $contact->phone2 }} @endif</td>
+                                    <td>{{ $contact->email }}</td>
+                                    <td>{{ $contact->notes }}</td>
+                                    <td>{{ $contact->admin }}</td>
+                                    <td>
+                                    @if(Auth::user()->hasRole('ContactAdd'))
+                                    <div id="resDiv{{$contact->id}}">
+                                    <button class="btn btn-xs" id="restoreContact{{ $contact->id }}" value="{{ $contact->id }}"> <i class="fa fa-rotate-left text-info"></i></button>
+                                    </div>
+                                    <script type="text/javascript">
+                                                    $(document.body).on('click', '#restoreContact{{$contact->id}}', function(e){
+                                                        e.preventDefault();
+                                                        id = $(this).val(); 
+                                                         $.post('/restoreClientContact',{id:id,_token:'{{ csrf_token() }}' }, function(actionBlade){ 
+                                                            $("#resDiv{{$contact->id}}").html(actionBlade); 
+                                                        });
+                                                    });
+                                    </script>                
+                                    @endif
+                                    </td>
                                     </tr>
+                                    @endforeach
                                     </tbody>
                                     </table>
                         </div>
