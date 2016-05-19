@@ -44,7 +44,7 @@ session(['subtitle' => '']); ?>
 
                             
                             <div class="checkbox m-b-5 m-t-0">
-                                <a href="javascript:;" class="btn btn-warning btn-xs m-r-5"><i class="fa fa-phone"></i> New Call</a>  
+                                <a href="{{action('CallsController@add',base64_encode($client->id))}}" class="btn btn-warning btn-xs m-r-5"><i class="fa fa-phone"></i> New Call</a>  
                             </div> 
  
                             <div class="checkbox m-b-5 m-t-0">
@@ -250,13 +250,15 @@ session(['subtitle' => '']); ?>
                                     <tr>
                                     <th class="nosort">#</th>
                                     <th>Contacted Person</th>
-                                    <th>Time</th>
+                                    <th>Call Time</th>
                                     <th>Call Details</th>  
                                     <th>Staff</th>
+                                    <th> </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
+                                    <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>

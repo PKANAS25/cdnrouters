@@ -88,4 +88,9 @@ Route::get('hrm/home', 'HomeController@home');
     Route::get('hrm/clients/filter', 'ClientsControllerExtra@initiate');  
     Route::post('hrm/clients/filter', 'ClientsControllerExtra@filterShow');   
 
+//-------------------------------CallsController-----------------------------------------------    
+
+    Route::get('hrm/calls/{id?}/add',  'CallsController@add');
+
+
 });

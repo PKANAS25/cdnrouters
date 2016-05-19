@@ -60,7 +60,10 @@ session(['subtitle' => 'clientsList']); ?>
                                         <td>@if($client->city) {{ $client->cityName }} @else Multiple Cities @endif</td>
                                         <td>{{ $client->currentStatus }}</td>
                                         <td>{{ $client->bdGrade }}</td>
-                                        <td>{{ $client->phone }}  @if($client->addedContacts)<sup><strong> {{ $client->addedContacts }} </strong></sup>@endif</td>
+                                        <td>{{ $client->phone }}  
+                                            @if($client->addedContacts)<sup><strong> {{ $client->addedContacts }} </strong></sup>@endif
+                                            <sub><i>2</i></sub>
+                                        </td>
                                     </tr>
                                      
                                 @endforeach
