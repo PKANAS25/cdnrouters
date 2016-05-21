@@ -35,8 +35,7 @@ Route::get('hrm/home', 'HomeController@home');
 
     Route::get('hrm/users/register',['middleware' => 'UserAdd', function () {return view('users.register');}]);
     Route::get('/duplicateCheck', ['uses'=>'UsersController@duplicateCheck']); 
-    Route::post('hrm/users/register',['middleware' => 'UserAdd','uses'=>'UsersController@add']);
-
+    Route::post('hrm/users/register',['middleware' => 'UserAdd','uses'=>'UsersController@add']); 
      
     Route::get('/users/{id?}/disable', ['middleware' => 'UserAdd','uses'=>'UsersController@disable']);
 
@@ -92,7 +91,11 @@ Route::get('hrm/home', 'HomeController@home');
 
     Route::get('hrm/calls/{id?}/add',  'CallsController@add');
     Route::post('hrm/calls/{id?}/add',  'CallsController@save');
-     Route::get('hrm/calls/{clientId?}/{contactId?}/edit','CallsController@edit');
+
+    Route::get('hrm/calls/{clientId?}/{contactId?}/edit','CallsController@edit');
+    Route::post('hrm/calls/{clientId?}/{contactId?}/edit','CallsController@editProcess');
+
+    Route::post('/hrm/calls/{clientId?}/{id?}/delete','CallsController@delete');
 
 
 });

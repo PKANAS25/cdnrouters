@@ -6,6 +6,10 @@ session(['subtitle' => '']); ?>
 @endsection
 
 @section('content')
+
+<link rel="stylesheet" type="text/css" href="/dist/msgbox/jquery.msgbox.css" />
+<script type="text/javascript" src="/dist/msgbox/jquery.msgbox.min.js"></script>
+
 <div id="content" class="content">
             <!-- begin breadcrumb -->
             <ol class="breadcrumb pull-right">
@@ -267,7 +271,32 @@ session(['subtitle' => '']); ?>
                                     <td>@if( ( $call->added_by == Auth::id() && date('Y-m-d',strtotime($call->created_at))==date('Y-m-d') ) || Auth::user()->hasRole('Superman') )
                                             <a href="{{action('CallsController@edit',[base64_encode($client->id),base64_encode($call->id)])}}"><i class="fa fa-edit text-success"></i></a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <i class="fa fa-trash text-danger"></i> 
+                                           
+                                            <button id="callDel{{$index}}"><i  class="fa fa-trash text-danger"></i></button>
+                                                 <script type="text/javascript">
+                                                    $('#callDel{{$index}}').click(function(ev) {
+                                                    
+                                                      $.msgbox("<p>Are you sure you want to delete this?</p>", {
+                                                        type    : "prompt",
+                                                         inputs  : [
+                                                          {type: "hidden", name: "_token", value: "{{ csrf_token() }}"}  
+                                                        ],
+                                                         
+                                                        buttons : [
+                                                          {type: "submit", name: "delete", value: "Delete"},
+                                                          {type: "cancel", value: "Cancel"}
+                                                        ],
+                                                        form : {
+                                                          active: true,
+                                                          method: 'post',
+                                                          action: '{{ action('CallsController@delete',[base64_encode($call->client),base64_encode($call->id)]) }}'
+                                                        }
+                                                      });
+                                                      
+                                                      ev.preventDefault();
+                                                    
+                                                    });
+                                                 </script>
                                      @endif</td>
                                     </tr>
                                     @endforeach

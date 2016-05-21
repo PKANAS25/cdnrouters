@@ -53,13 +53,17 @@ session(['subtitle' => '']); ?>
                                     <label class="control-label col-md-4 col-sm-4">Contact Person :</label>
                                     <div class="col-md-6 col-sm-6">
                                         <select class="form-control" id="contact_person_id" name="contact_person_id"  >
+                                            @if($call->contact_person_id==0)
                                             <option value="">Please choose</option> 
+                                            @else
+                                            <option value="{{ $call->contact_person_id }}">{{ $call->contactName }}</option> 
+                                            @endif
                                             @foreach($contacts as $contact)
                                             <option value="{!! $contact->id !!}">{!! $contact->name !!}</option>
                                             @endforeach
                                         </select> 
                                         or 
-                                      <input class="form-control" type="text" id="contact_person" name="contact_person" value="{{ old('contact_person') }}" />
+                                      <input class="form-control" type="text" id="contact_person" name="contact_person" value="{{ $call->contact_person }}" />
                                     </div>
                                 </div>
 
@@ -67,7 +71,7 @@ session(['subtitle' => '']); ?>
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4" for="name">Call Time :</label>
                                     <div class="col-md-6 col-sm-6">
-                                     <input class="form-control" type="text" data-field="datetime" id="call_time" name="call_time" data-fv-notempty="true"   value="{{ old('call_time') }}"   data-format="yyyy-mm-dd hh:mm" />
+                                     <input class="form-control" type="text" data-field="datetime" id="call_time" name="call_time" data-fv-notempty="true"   value="{{ date('Y-m-d H:i',strtotime($call->call_time)) }}"   data-format="yyyy-mm-dd hh:mm" />
                                      <div id="dtBox"></div>
                                     </div>
                                 </div>
@@ -78,10 +82,22 @@ session(['subtitle' => '']); ?>
                                     <label class="control-label col-md-4 col-sm-4">Call Importance :</label>
                                     <div class="col-md-6 col-sm-6">
                                         <select class="form-control"  name="importance" data-fv-notempty="true">
-                                            <option value="">Please choose</option> 
+                                            @if($call->importance==1)
                                             <option value="1">Important</option> 
                                             <option value="2">Casual</option> 
                                             <option value="3">Rejection</option> 
+                                            
+                                            @elseif($call->importance==2) 
+                                            <option value="2">Casual</option> 
+                                            <option value="1">Important</option> 
+                                            <option value="3">Rejection</option> 
+                                           
+                                            @elseif($call->importance==3)
+                                            <option value="3">Rejection</option> 
+                                            <option value="1">Important</option> 
+                                            <option value="2">Casual</option>
+                                            @endif
+                                           
                                         </select> 
 
                                     </div>
@@ -90,7 +106,7 @@ session(['subtitle' => '']); ?>
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4" for="Notes">Call Details :</label>
                                     <div class="col-md-6 col-sm-6">
-                                       <textarea class="form-control" id="call_details" name="call_details" rows="3" data-fv-notempty="true"  >{{ old('call_details') }}</textarea>
+                                       <textarea class="form-control" id="call_details" name="call_details" rows="3" data-fv-notempty="true"  >{{ $call->call_details }}</textarea>
                                     </div>
                                 </div> 
  

@@ -80,6 +80,49 @@ public function edit($clientId,$callId)
 
         return view('clients.editCall',compact('clientId','callId','call','client','contacts'));
     }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+   
+   public function editProcess($clientId,$callId,Request $request)
+    {
+         
+          $this->validate($request, [
+        'contact_person_id' => 'required_without_all:contact_person',
+        'contact_person' => 'required_without_all:contact_person_id',
+        'call_time' => 'required',
+        'importance' => 'required',
+        'call_details' => 'required',]); 
+
+          $clientId =  base64_decode($clientId);
+          $callId =  base64_decode($callId);
+
+          if($request->contact_person_id)
+            $contact_person='';
+          else 
+            $contact_person = ucwords(strtolower($request->contact_person));
+            
+ 
+         $call = ClientCall::where('id',$callId)->first();  
+              
+             $call->contact_person_id = $request->contact_person_id;
+             $call->contact_person = $contact_person;
+             $call->call_time = $request->call_time;
+             $call->importance = $request->importance;
+             $call->call_details = $request->call_details; 
+
+         $call->save();
+                
+
+        return redirect()->action('ClientsController@profile',base64_encode($clientId))->with('status', 'Call editted!');
+    }    
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+   
+   public function delete($clientId,$callId)
+    {
+        $deletion = ClientCall::where('id', base64_decode($callId))->delete();
+        return redirect()->action('ClientsController@profile',$clientId)->with('status', 'Call removed!');
+    }    
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
 }
