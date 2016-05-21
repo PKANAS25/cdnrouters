@@ -13,6 +13,7 @@ use App\Http\Requests\ClientAddRequest;
 use DB;
 use App\Client;
 use App\Contact;
+use App\ClientCall;
 
 use Carbon\Carbon;
 
@@ -27,7 +28,7 @@ class ClientsController extends Controller
     public function index()
     {  
  
-        $clients = Client::select(array('clients.*','Country.Name AS countryName', 'City.Name AS cityName', 'status.status AS currentStatus' , 'bd_grade.grade AS bdGrade','industries.name AS industryName',DB::raw('(SELECT count(id) FROM contacts WHERE contacts.client = clients.id) AS addedContacts')))  
+        $clients = Client::select(array('clients.*','Country.Name AS countryName', 'City.Name AS cityName', 'status.status AS currentStatus' , 'bd_grade.grade AS bdGrade','industries.name AS industryName',DB::raw('(SELECT count(id) FROM contacts WHERE contacts.client = clients.id) AS addedContacts'),DB::raw('(SELECT count(id) FROM clientCalls WHERE clientCalls.client = clients.id) AS addedCalls')))  
                             ->leftjoin('Country','clients.country', '=', 'Country.Code')
                             ->leftjoin('City','clients.city', '=', 'City.ID')
                             ->leftjoin('status','clients.status', '=', 'status.id')
@@ -179,6 +180,15 @@ class ClientsController extends Controller
                            ->orderBy('contacts.name')
                            ->get();
         
+
+        $calls = ClientCall::select('clientCalls.*','contacts.name AS contactName','users.name AS admin')
+                           ->leftjoin('users','clientCalls.added_by', '=', 'users.id')
+                           ->leftjoin('contacts','contacts.id', '=', 'clientCalls.contact_person_id')
+                           ->where('clientCalls.client',$clientId) 
+                           ->orderBy('clientCalls.call_time','desc')
+                           ->get();
+
+
         foreach($contacts AS $contact)
         {
             if (File::exists(base_path().'/public/uploads/contactPics/'.$contact->id.'.jpg'))
@@ -210,7 +220,7 @@ class ClientsController extends Controller
        else
             $profile_pic = '/uploads/clientLogos/no_image.jpg';                   
 
-          return view('clients.profile',compact('clientId','client','profile_pic','subsidiaries','changes','contacts','deletedContacts'));
+          return view('clients.profile',compact('clientId','client','profile_pic','subsidiaries','changes','contacts','deletedContacts','calls'));
     }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

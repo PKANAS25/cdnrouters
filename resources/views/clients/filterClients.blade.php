@@ -118,7 +118,10 @@ session(['subtitle' => 'filterClient']); ?>
                                         <td>@if($client->city) {{ $client->cityName }} @else Multiple Cities @endif</td>
                                         <td>{{ $client->currentStatus }}</td>
                                         <td>{{ $client->bdGrade }}</td>
-                                        <td>{{ $client->phone }} @if($client->addedContacts)<sup><strong> {{ $client->addedContacts }} </strong></sup>@endif</td>
+                                        <td>{{ $client->phone }} 
+                                        @if($client->addedContacts)<sup><strong> {{ $client->addedContacts }} </strong><i class="fa fa-user"></i></sup>&nbsp;&nbsp;&nbsp; @endif
+                                        @if($client->addedCalls)<sup><strong> {{ $client->addedCalls }} </strong><i class="fa fa-phone"></i></sup>@endif
+                                        </td>
                                     </tr>
                                      
                                 @endforeach

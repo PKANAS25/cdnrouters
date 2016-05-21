@@ -14,12 +14,12 @@ session(['subtitle' => '']); ?>
             <!-- begin breadcrumb -->
             <ol class="breadcrumb pull-right">
                 <li><a href="javascript:;">Call</a></li>
-                <li class="active"><a href="javascript:;">Add</a></li>
+                <li class="active"><a href="javascript:;">Edit</a></li>
                  
             </ol> 
             <!-- end breadcrumb -->
             <!-- begin page-header -->
-            <h1 class="page-header">{{ $client->name }} <small> New Call</small></h1>
+            <h1 class="page-header">{{ $client->name }} <small> Edit Call</small></h1>
             <!-- end page-header -->
             <!-- begin row -->
              <div class="col-md-12">
@@ -31,7 +31,7 @@ session(['subtitle' => '']); ?>
                                 
                                 
                             </div>
-                            <h4 class="panel-title">Add new call to {{ $client->name }}</h4>
+                            <h4 class="panel-title">Edit call</h4>
                         </div>
                         <div class="panel-body">
 

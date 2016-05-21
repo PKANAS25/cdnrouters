@@ -91,6 +91,8 @@ Route::get('hrm/home', 'HomeController@home');
 //-------------------------------CallsController-----------------------------------------------    
 
     Route::get('hrm/calls/{id?}/add',  'CallsController@add');
+    Route::post('hrm/calls/{id?}/add',  'CallsController@save');
+     Route::get('hrm/calls/{clientId?}/{contactId?}/edit','CallsController@edit');
 
 
 });

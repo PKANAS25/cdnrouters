@@ -90,7 +90,7 @@ public function filterShow(Request $request)
        }
 
 
-       $clients = Client::select(array('clients.*','Country.Name AS countryName', 'City.Name AS cityName', 'status.status AS currentStatus' , 'bd_grade.grade AS bdGrade','industries.name AS industryName',DB::raw('(SELECT count(id) FROM contacts WHERE contacts.client = clients.id) AS addedContacts')))
+       $clients = Client::select(array('clients.*','Country.Name AS countryName', 'City.Name AS cityName', 'status.status AS currentStatus' , 'bd_grade.grade AS bdGrade','industries.name AS industryName',DB::raw('(SELECT count(id) FROM contacts WHERE contacts.client = clients.id) AS addedContacts'),DB::raw('(SELECT count(id) FROM clientCalls WHERE clientCalls.client = clients.id) AS addedCalls')))
                             ->leftjoin('Country','clients.country', '=', 'Country.Code')
                             ->leftjoin('City','clients.city', '=', 'City.ID')
                             ->leftjoin('status','clients.status', '=', 'status.id')

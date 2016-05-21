@@ -61,8 +61,8 @@ session(['subtitle' => 'clientsList']); ?>
                                         <td>{{ $client->currentStatus }}</td>
                                         <td>{{ $client->bdGrade }}</td>
                                         <td>{{ $client->phone }}  
-                                            @if($client->addedContacts)<sup><strong> {{ $client->addedContacts }} </strong></sup>@endif
-                                            <sub><i>2</i></sub>
+                                        @if($client->addedContacts)<sup><strong> {{ $client->addedContacts }} </strong><i class="fa fa-user"></i></sup>&nbsp;&nbsp;&nbsp; @endif
+                                        @if($client->addedCalls)<sup><strong> {{ $client->addedCalls }} </strong><i class="fa fa-phone"></i></sup>@endif
                                         </td>
                                     </tr>
                                      

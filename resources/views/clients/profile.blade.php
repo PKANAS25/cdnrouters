@@ -257,14 +257,20 @@ session(['subtitle' => '']); ?>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
+                                    @foreach($calls AS $index => $call)
+                                    <tr @if($call->importance==1) class="text-warning" @elseif($call->importance==2) class="text-success" @elseif($call->importance==3) class="text-danger" @endif >
+                                    <td>{{ $index+1 }}</td>
+                                    <td>{{ $call->contactName.$call->contact_person }}</td>
+                                    <td>{{ date('d-M-y H:i:a',strtotime($call->call_time)) }}</td>
+                                    <td>{{ $call->call_details }}</td>
+                                    <td>{{ $call->admin }}</td>
+                                    <td>@if( ( $call->added_by == Auth::id() && date('Y-m-d',strtotime($call->created_at))==date('Y-m-d') ) || Auth::user()->hasRole('Superman') )
+                                            <a href="{{action('CallsController@edit',[base64_encode($client->id),base64_encode($call->id)])}}"><i class="fa fa-edit text-success"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <i class="fa fa-trash text-danger"></i> 
+                                     @endif</td>
                                     </tr>
+                                    @endforeach
                                     </tbody>
                                     </table>
                                     <span class="text-warning"><i class="fa fa-circle"></i> Important</span>&nbsp;&nbsp;&nbsp;&nbsp;  
