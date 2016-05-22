@@ -2,20 +2,20 @@
 
 @section('urlTitles')
 <?php session(['title' => 'Clients']);
-session(['subtitle' => 'filterClient']); ?>
+session(['subtitle' => 'filterContact']); ?>
 @endsection
 
 @section('content')
 <div id="content" class="content">
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb pull-right">
-				<li><a href="javascript:;">Clients</a></li>
-				<li class="active"><a href="javascript:;">Filter</a></li>
+				<li><a href="javascript:;">Contacts</a></li>
+				<li class="active"><a href="javascript:;">Search</a></li>
 				 
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Filter <small> Clients</small></h1>
+			<h1 class="page-header">Search <small> Contacts</small></h1>
 			<!-- end page-header -->
 			<!-- begin row -->
             <div class="col-md-12">
@@ -23,37 +23,81 @@ session(['subtitle' => 'filterClient']); ?>
                     <div class="panel panel-inverse" data-sortable-id="table-basic-1">
                         <div class="panel-heading hidden-print">
                             
-                            <h4 class="panel-title">Filter options</h4>
+                            <h4 class="panel-title">Search</h4>
                         </div>
                         
                         <div class="panel-body">
+                        <form name="eForm" id="eForm"  method="GET" autocomplete="OFF" class="form-inline hidden-print"  enctype="multipart/form-data"  data-fv-framework="bootstrap"
+    data-fv-message="Required Field"
+   
+    data-fv-icon-invalid="glyphicon glyphicon-remove"
+    data-fv-icon-validating="glyphicon glyphicon-refresh">
+
+                                
+
+                                <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+
+                                <fieldset>
+                                    
+                                     
+
+                                <div class="form-group m-r-10">
+                                    
+                                        <input class="form-control" size="50" type="text" id="keyword" name="keyword"  placeholder="Name /  Mobile / Phone"    />
+                                      
+                                </div>
+
+                                
+
+                                 
+
+                                    <script type="text/javascript">
+
+ 
+                                    $('#keyword').keyup(function(e){  
+                             
+                                        e.preventDefault();
+                                        var value =($(this).val());
+
+                                        var data = {thisConfirm : $(this).val()};
+                                        clearTimeout($(this).data('timer'));
+
+                                         $(this).data('timer', setTimeout(function() {
+                                            $.get('/hrm/contactSearchBind',{keyword:value }, function(searchBlade){                      
+                                            $("#searchResults").html(searchBlade);
+                                            });
+                                        },400));
+                        
+                                     }); 
+
+                                  
+                                   </script> 
+
+                                </fieldset>
+                            </form>
+
+                      <strong>OR</strong>  
 
                         <form class="form-inline hidden-print" name="eForm" id="eForm"  method="post" autocomplete="OFF">
                              <input type="hidden" name="_token" value="{!! csrf_token() !!}"> 
                                 <div class="form-group m-r-10">
+
+                                 <select class="form-control" id="select-required" name="position"  > 
+                                       @if($positionFilter) <option value="{{ $chosenPosition->id }}">{{ $chosenPosition->position }}</option>  @endif
+                                            <option value="">All Positions</option>
+                                            @foreach($positions as $position)
+                                            <option value="{!! $position->id !!}">{!! $position->position !!}</option>
+                                            @endforeach 
+                                        </select>
+
+
                                   <select class="form-control" id="select-required" name="industry"  >
                                   @if($industryFilter) <option value="{{ $chosenIndustry->id }}">{{ $chosenIndustry->name }}</option>  @endif
                                             <option value="">All Industries</option>
                                             @foreach($industries as $industry)
                                             <option value="{!! $industry->id !!}">{!! $industry->name !!}</option>
                                             @endforeach
-                                        </select>
-
-                                       <select class="form-control" id="select-required" name="status"  > 
-                                       @if($statusFilter) <option value="{{ $chosenStatus->id }}">{{ $chosenStatus->status }}</option>  @endif
-                                            <option value="">All Status</option>
-                                            @foreach($status as $stat)
-                                            <option value="{!! $stat->id !!}">{!! $stat->status !!}</option>
-                                            @endforeach 
-                                        </select>
-
-                                         <select class="form-control" id="select-required" name="bd_grade"  > 
-                                         @if($bd_gradeFilter) <option value="{{ $chosenGrade->id }}">{{ $chosenGrade->grade }}</option>  @endif
-                                            <option value="">All Grades</option> 
-                                            @foreach($bdGrades as $bdGrade)
-                                            <option value="{!! $bdGrade->id !!}">{!! $bdGrade->grade !!}</option>
-                                            @endforeach 
-                                        </select>
+                                        </select> 
 
 
                                         <select class="form-control" id="country"  name="country"  onchange="cityLoader()" >
@@ -92,36 +136,38 @@ session(['subtitle' => 'filterClient']); ?>
                                      {{ session('status') }} 
                                     </div>
                                 @endif
-                               
+                             <div id="searchResults">  
                              <div class="table-responsive">
-                             @if($clients)
+                             @if($contacts)
                             <table id="data-table" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th class="nosort">#</th>
-                                        <th width="30%">Name</th>
-                                        <th>Industry</th>
+                                        <th>Name</th>
+                                        <th>Company</th> 
+                                        <th>Industry</th> 
+                                        <th>Position</th> 
                                         <th>Country</th>
                                         <th>City</th>
-                                        <th>Status</th>
-                                        <th>BD Grade</th>
-                                        <th>Phone</th>
+                                        <th>Mobile</th> 
+                                        <th>Phone</th> 
+                                        <th>Email</th> 
                                     </tr>
                                 </thead>
                                 <tbody> 
-                                     @foreach($clients As $index => $client)
+                                     @foreach($contacts As $index => $contact)
                                     <tr>
-                                        <td>{!! $index+1 !!}</td>
-                                        <td>  <a href="{!! action('ClientsController@profile', base64_encode($client->id)) !!}">{!! $client->name !!}  </td>
-                                        <td>{!! $client->industryName !!}</td>
-                                        <td>{{  $client->countryName }} </td>
-                                        <td>@if($client->city) {{ $client->cityName }} @else Multiple Cities @endif</td>
-                                        <td>{{ $client->currentStatus }}</td>
-                                        <td>{{ $client->bdGrade }}</td>
-                                        <td>{{ $client->phone }} 
-                                        @if($client->addedContacts)<sup><strong> {{ $client->addedContacts }} </strong><i class="fa fa-user"></i></sup>&nbsp;&nbsp;&nbsp; @endif
-                                        @if($client->addedCalls)<sup><strong> {{ $client->addedCalls }} </strong><i class="fa fa-phone"></i></sup>@endif
-                                        </td>
+                                        <td>{!! $index+1 !!}</td> 
+                                        <td>{!! $contact->name !!}</td>
+                                        <td><a href="{!! action('ClientsController@profile', base64_encode($contact->client)) !!}">{!! $contact->clientName !!}</a></td>
+                                        <td>{{  $contact->industryName }} </td>
+                                        <td>{{  $contact->positionName }} </td>
+                                        <td>{{  $contact->countryName }} </td>
+                                        <td>@if($contact->city) {{ $contact->cityName }} @else Multiple Cities @endif</td>
+                                        <td>{{ $contact->mobile }}</td>
+                                         <td>{{ $contact->phone }} @if($contact->phone2) , {{ $contact->phone2 }} @endif</td>
+                                        <td>{{ $contact->email }}</td>
+                                         
                                     </tr>
                                      
                                 @endforeach
@@ -129,6 +175,7 @@ session(['subtitle' => 'filterClient']); ?>
                                 </tbody>
                             </table>
                             @endif
+                        </div>
                         </div>
                         </div>
                     </div> 

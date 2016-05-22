@@ -41,7 +41,7 @@ session(['subtitle' => 'clientsList']); ?>
                                 <thead>
                                     <tr>
                                         <th class="nosort">#</th>
-                                        <th>Name</th>
+                                        <th width="30%">Name</th>
                                         <th>Industry</th>
                                         <th>Country</th>
                                         <th>City</th>

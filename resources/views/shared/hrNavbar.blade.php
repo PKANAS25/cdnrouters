@@ -32,7 +32,8 @@
                             @if(Auth::user()->hasRole('ClientAdd'))
                             <li @if(session('subtitle') == 'addClient') class="active" @endif><a href="\hrm\clients\add">Add Client</a></li>
                             @endif
-                            <li @if(session('subtitle') == 'filterClient') class="active" @endif><a href="\hrm\clients\filter">Filter <i class="fa fa-filter text-theme m-l-5"></i></a></li>  
+                            <li @if(session('subtitle') == 'filterClient') class="active" @endif><a href="\hrm\clients\filter">Filter <i class="fa fa-filter text-theme m-l-5"></i></a></li> 
+                            <li @if(session('subtitle') == 'filterContact') class="active" @endif><a href="\hrm\contacts\search">Search Contacts <i class="fa fa-binoculars text-theme m-l-5"></i></a></li>  
                         </ul>
                     </li>
  <!-- **********************************************************Administrator****************************************************************************** -->                    
@@ -56,15 +57,15 @@
                     @endif
  <!-- *************************************************************Settings*************************************************************************** -->                    
                     @if( Auth::user()->hasRole('ContactAdd') || Auth::user()->hasRole('ClientAdd'))
-                    <li class="has-sub">
+                    <li class="has-sub @if(session('title') == 'Settings')   active @endif" >
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
                             <i class="fa fa-cogs"></i>
                             <span>Settings</span>
                         </a>
                         <ul class="sub-menu">
-                            @if( Auth::user()->hasRole('ClientAdd'))<li><a href="chart-flot.html">Industries</a></li>@endif
-                             @if( Auth::user()->hasRole('ContactAdd'))<li><a href="chart-morris.html">Positions</a></li>@endif
+                            @if( Auth::user()->hasRole('ClientAdd'))<li @if(session('subtitle') == 'industries') class="active" @endif><a href="/hrm/settings/industries">Industries</a></li>@endif
+                            @if( Auth::user()->hasRole('ContactAdd'))<li @if(session('subtitle') == 'designations') class="active" @endif><a href="/hrm/settings/designations">Positions</a></li>@endif
                         </ul>
                     </li>
                     @endif

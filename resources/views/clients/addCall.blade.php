@@ -8,7 +8,10 @@ session(['subtitle' => '']); ?>
 
 @section('content')
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/datetimepicker/0.1.26/DateTimePicker.min.css" />
-<script type="text/javascript" src="//cdn.jsdelivr.net/datetimepicker/0.1.26/DateTimePicker.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/datetimepicker/0.1.26/DateTimePicker.min.js"></script> 
+
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
 
 <div id="content" class="content">
             <!-- begin breadcrumb -->
@@ -90,7 +93,7 @@ session(['subtitle' => '']); ?>
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4" for="Notes">Call Details :</label>
                                     <div class="col-md-6 col-sm-6">
-                                       <textarea class="form-control" id="call_details" name="call_details" rows="3" data-fv-notempty="true"  >{{ old('call_details') }}</textarea>
+                                       <textarea class="form-control" id="call_details" name="call_details" rows="3" >{{ old('call_details') }}</textarea>
                                     </div>
                                 </div> 
  
@@ -120,11 +123,32 @@ session(['subtitle' => '']); ?>
 
             $("#dtBox").DateTimePicker();
 
+            tinymce.init({
+  selector: 'textarea',
+  plugins: "textcolor",
+  menubar: false,
+  elementpath: false,
+  toolbar: [
+    'undo redo | styleselect | bold italic | forecolor backcolor',
+    'alignleft aligncenter alignright'
+  ], 
+        setup: function(editor) {
+            editor.on('keyup', function(e) {
+                // Revalidate the hobbies field
+                $('#eForm').formValidation('revalidateField', 'call_details');
+            });
+        }
+  });
+ 
+
 <!-- -------------------------------------------------==================--------------------------------------------- -->
 
           
 
             $('#eForm').formValidation({
+                 framework: 'bootstrap',
+            excluded: [':disabled'],
+
                 message: 'This value is not valid',
                 
 
@@ -145,7 +169,24 @@ session(['subtitle' => '']); ?>
                                 }
                             }
                      }
-                 }
+                 },
+                  call_details: {
+                    validators: {
+                        callback: {
+                            message: 'The call details must be atleast 20 characters long',
+                            callback: function(value, validator, $field) {
+                                // Get the plain text without HTML
+                                var text = tinyMCE.activeEditor.getContent({
+                                    format: 'text'
+                                });
+
+                                if(text.length < 20)
+                                    return false;
+                                else return true;
+                            }
+                        }
+                    }
+                }
      
                 }
     })

@@ -123,7 +123,7 @@ class ClientsController extends Controller
     public function save(ClientAddRequest $request)
     {
           
-           $name = ucwords(strtolower($request->name));
+           $name = ucwords(($request->name));
   
              $client = new Client(array( 
                                     'name'=>$name,
@@ -279,7 +279,7 @@ class ClientsController extends Controller
 
              $historyString = "";
 
-            if($client->name!=ucwords(strtolower($request->name)))
+            if($client->name!=ucwords(($request->name)))
                 $historyString = $historyString."Name : ".$client->name."=>".$request->name."<br>";
 
             if($client->industry != $request->industry)
@@ -332,7 +332,7 @@ class ClientsController extends Controller
              if($client->description!=$request->description)
                 $historyString = $historyString."Company description changed<br>";
 
-                        $client->name = ucwords(strtolower($request->name));
+                        $client->name = ucwords(($request->name));
                         $client->industry = $request->industry;
                         $client->status = $request->status;
                         $client->bd_grade = $request->bd_grade;

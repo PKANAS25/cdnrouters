@@ -27,7 +27,7 @@
                         <div class="panel-body">
 
                              
-                            <form name="eForm" id="eForm"  method="POST"  action="/password/reset" autocomplete="OFF" class="form-horizontal form-bordered"  enctype="multipart/form-data"  data-fv-framework="bootstrap"
+                            <form name="eForm" id="eForm"  method="POST"  action="/hrm/password/reset" autocomplete="OFF" class="form-horizontal form-bordered"  enctype="multipart/form-data"  data-fv-framework="bootstrap"
     data-fv-message="Required Field"
    
     data-fv-icon-invalid="glyphicon glyphicon-remove"

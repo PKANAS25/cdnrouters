@@ -72,7 +72,7 @@ class PagesController extends Controller
              
             Mail::send([], [], function ($message) use($subject,$emails,$body,$from,$name) 
             {
-               $message->from('webmaster@cdnrouters.com', 'CDN Web Contact Form');
+               $message->from('cdnrouters@gmail.com', 'CDN Web Contact Form');
                $message->replyTo($from, $name);
                $message->to($emails);
                $message->subject($subject);

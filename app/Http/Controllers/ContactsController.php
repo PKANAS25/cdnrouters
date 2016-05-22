@@ -191,8 +191,149 @@ public function edit($clientId,$contactId)
         return redirect()->action('ClientsController@profile',base64_encode($clientId))->with('status', 'Contact Editted!');        
     }   
 
-  //--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
+   public function initiate()
+    {  
+         
+        $countries = DB::table('Country')->orderBy('Name')->get();
+        $industries = DB::table('industries')->orderBy('name')->get(); 
+        $positions = DB::table('designations')->orderBy('position')->get(); 
+        $contacts = 0;
+         
+        $industryFilter=0;
+        $positionFilter=0; 
+        $countryFilter=0; 
+        $cityFilter=0; 
+
+        return view('clients.filterContacts',compact('countries','industries','positions','contacts','industryFilter','positionFilter','countryFilter','cityFilter'));                     
+    }
+
+//--------------------------------------------------------------------------------------------
+public function filterShow(Request $request)
+    {  
+         
+        $countries = DB::table('Country')->orderBy('Name')->get();
+        $industries = DB::table('industries')->orderBy('name')->get(); 
+        $positions = DB::table('designations')->orderBy('position')->get(); 
+ 
+        $filterString=" clients.deleted='0' AND contacts.deleted='0'";
+
+        $industryFilter=0;
+        $positionFilter=0; 
+        $countryFilter=0; 
+        $cityFilter=0; 
+       
+       if($request->industry)
+       {
+        $industryFilter=$request->industry;
+        $chosenIndustry= DB::table('industries')->where('id',$industryFilter)->first(); 
+        $filterString = $filterString." AND clients.industry='$industryFilter'";
+       } 
+
+       if($request->position)
+       {
+        $positionFilter=$request->position;
+        $chosenPosition= DB::table('designations')->where('id',$positionFilter)->first(); 
+        $filterString = $filterString." AND contacts.position='$positionFilter'";
+       } 
+
+
+       if($request->country) 
+       {
+        $countryFilter=$request->country;
+        $chosenCountry= DB::table('Country')->where('Code',$countryFilter)->first();
+        $filterString = $filterString." AND clients.country='$countryFilter'";
+       }
+
+       if($request->city)
+       {
+        $cityFilter=$request->city;
+        $chosenCity= DB::table('City')->where('ID',$cityFilter)->first();
+        $filterString = $filterString." AND clients.city='$cityFilter'";
+       }
+
+
+       $contacts = Contact::select('contacts.*','Country.Name AS countryName', 'City.Name AS cityName', 'clients.name AS clientName' ,'industries.name AS industryName','designations.position AS positionName')
+                            ->leftjoin('clients','clients.id', '=', 'contacts.client')
+                            ->leftjoin('Country','clients.country', '=', 'Country.Code')
+                            ->leftjoin('City','clients.city', '=', 'City.ID') 
+                            ->leftjoin('industries','clients.industry', '=', 'industries.id') 
+                            ->leftjoin('designations','contacts.position', '=', 'designations.id') 
+                            ->whereRaw($filterString)
+                            ->orderBy('clients.name','contacts.name')
+                            ->get();
+
+
+        return view('clients.filterContacts',compact('countries','industries','contacts','positions','industryFilter','positionFilter','countryFilter','cityFilter','chosenIndustry','chosenPosition','chosenCountry','chosenCity'));                     
+    }
+
+//--------------------------------------------------------------------------------------------
+public function searchBind(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        if($keyword=='')
+            echo " ";
+        else
+        {
+            $contacts = Contact::select('contacts.*','Country.Name AS countryName', 'City.Name AS cityName', 'clients.name AS clientName' ,'industries.name AS industryName','designations.position AS positionName')
+                            ->leftjoin('clients','clients.id', '=', 'contacts.client')
+                            ->leftjoin('Country','clients.country', '=', 'Country.Code')
+                            ->leftjoin('City','clients.city', '=', 'City.ID') 
+                            ->leftjoin('industries','clients.industry', '=', 'industries.id') 
+                            ->leftjoin('designations','contacts.position', '=', 'designations.id') 
+                            ->where(function($query){
+                                     $query->where('contacts.deleted',0);
+                             }) 
+                             ->where(function($query) use ($keyword){
+                                $query->orwhere('contacts.name', 'like', '%'.$keyword.'%');
+                                $query->orWhere('mobile', 'like', '%'.$keyword.'%');
+                                $query->orWhere('contacts.phone', 'like', '%'.$keyword.'%');
+                                $query->orWhere('phone2', 'like', '%'.$keyword.'%');
+                             }) 
+                            ->orderBy('clients.name','contacts.name')
+                            ->get();
+                            ?>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="nosort">#</th>
+                                        <th>Name</th>
+                                        <th>Company</th> 
+                                        <th>Industry</th> 
+                                        <th>Position</th> 
+                                        <th>Country</th>
+                                        <th>City</th>
+                                        <th>Mobile</th> 
+                                        <th>Phone</th> 
+                                        <th>Email</th> 
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                     <?php foreach($contacts As $index => $contact)  { ?>
+                                    <tr>
+                                        <td><?php echo $index+1 ;?></td> 
+                                        <td><?php echo str_ireplace($keyword,"<span class=\"text-danger\">".$keyword."</span>",$contact->name);?></td> 
+                                        <td><a href="\hrm\clients\<?php echo base64_encode($contact->client) ?>\profile"><?php echo $contact->clientName; ?></a></td>
+                                        <td><?php echo  $contact->industryName; ?> </td>
+                                        <td><?php echo  $contact->positionName; ?> </td>
+                                        <td><?php echo  $contact->countryName; ?> </td>
+                                        <td><?php if($contact->city)  echo $contact->cityName; else echo "Multiple Cities"; ?></td>
+                                        <td><?php echo $contact->mobile; ?></td>
+                                         <td><?php echo $contact->phone;  if($contact->phone2)   echo ", ".$contact->phone2 ?></td>
+                                        <td><?php echo $contact->email ?></td>
+                                         
+                                    </tr>
+                                     
+                            <?php } ?>
+                                     
+                                </tbody>
+                            </table>
+                            <?php
+        }
+    }
+//--------------------------------------------------------------------------------------------
 
 
 }

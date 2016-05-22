@@ -77,7 +77,7 @@
                     </div>
                      
                 </form>
-                <br><a href="/password/email">Forgot password?</a>
+                <br><a href="/hrm/password/email">Forgot password?</a>
             </div>
         </div>
        

@@ -24,6 +24,14 @@ Route::post('/hrm', 'Auth\AuthController@authenticate');
 Route::get('/hrm/logout', 'Auth\AuthController@getLogout');
 Route::get('/hrm/errorLogout', 'Auth\AuthController@errorLogout');
 
+// Password reset link request routes...
+Route::get('/hrm/password/email', 'Auth\PasswordController@getEmail');
+Route::post('/hrm/password/email', 'Auth\PasswordController@postEmail');
+
+// Password reset routes...
+Route::get('/hrm/password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('/hrm/password/reset', 'Auth\PasswordController@postReset');
+
 Route::group(array('middleware' => 'auth' ), function () {
 
 Route::get('hrm/home', 'HomeController@home');
@@ -82,6 +90,11 @@ Route::get('hrm/home', 'HomeController@home');
     Route::get('/contactEditCheck', 'ContactsController@contactEditCheck');
     Route::post('hrm/contacts/{clientId?}/{contactId?}/edit', ['middleware' => 'ContactAdd','uses'=>'ContactsController@editProcess']);
 
+    Route::get('hrm/contacts/search', 'ContactsController@initiate');  
+    Route::post('hrm/contacts/search', 'ContactsController@filterShow');  
+
+    Route::get('hrm/contactSearchBind', 'ContactsController@searchBind');
+
 //-------------------------------ClientsControllerExtra-----------------------------------------------    
  
     Route::get('hrm/clients/filter', 'ClientsControllerExtra@initiate');  
@@ -97,5 +110,15 @@ Route::get('hrm/home', 'HomeController@home');
 
     Route::post('/hrm/calls/{clientId?}/{id?}/delete','CallsController@delete');
 
+//-------------------------------SettingsController-----------------------------------------------    
+
+    Route::get('hrm/settings/industries',  'SettingsController@industries');
+    Route::get('/industryAddCheck', 'SettingsController@industryAddCheck');
+    Route::post('hrm/settings/industries',  'SettingsController@saveIndustry');
+
+
+    Route::get('hrm/settings/designations',  'SettingsController@positions');
+    Route::get('/positionAddCheck', 'SettingsController@positionAddCheck');
+    Route::post('hrm/settings/designations',  'SettingsController@savePosition');
 
 });

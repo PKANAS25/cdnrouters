@@ -1,0 +1,1 @@
+Click here to reset your password: {{ url('/hrm/password/reset/'.$token) }}
