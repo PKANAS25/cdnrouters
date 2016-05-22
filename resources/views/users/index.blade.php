@@ -62,7 +62,7 @@ session(['subtitle' => 'users']); ?>
                                         <td>{!! $user->email !!}</td>
                                         <td>{{  $user->last_login }} </td>
                                         <td>
-                                             @if(Auth::user()->hasRole('user_add'))
+                                             @if(Auth::user()->hasRole('user_add') && $user->id!=1)
                                              <a title="Click here to disable this user" href="javascript:decision('Are you sure you want to disable this user?','{!! action('UsersController@disable', base64_encode($user->id)) !!}')"><i class="fa fa-ban"></i></a> 
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <a title="Click here to change password" href="{!! action('UsersController@passwordChangeView', base64_encode($user->id)) !!}"><i class="fa fa-key"></i></a>

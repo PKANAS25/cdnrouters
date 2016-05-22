@@ -112,7 +112,7 @@
                   <a class="google itl-tooltip" data-placement="bottom" title="Google Plus" href="#"><i class="fa fa-google-plus"></i></a>
                 </li>
                 <li>
-                  <a class="linkdin itl-tooltip" data-placement="bottom" title="Linkedin" href="#"><i class="fa fa-linkedin"></i></a>
+                  <a class="linkdin itl-tooltip" data-placement="bottom" title="Linkedin" target="_blank" href="https://www.linkedin.com/company/cdn-routers"><i class="fa fa-linkedin"></i></a>
                 </li>
                 <li>
                   <a class="skype itl-tooltip" data-placement="bottom" title="Skype" href="#"><i class="fa fa-skype"></i></a>

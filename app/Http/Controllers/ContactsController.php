@@ -320,8 +320,8 @@ public function searchBind(Request $request)
                                         <td><?php echo  $contact->positionName; ?> </td>
                                         <td><?php echo  $contact->countryName; ?> </td>
                                         <td><?php if($contact->city)  echo $contact->cityName; else echo "Multiple Cities"; ?></td>
-                                        <td><?php echo $contact->mobile; ?></td>
-                                         <td><?php echo $contact->phone;  if($contact->phone2)   echo ", ".$contact->phone2 ?></td>
+                                        <td><?php echo str_ireplace($keyword,"<span class=\"text-danger\">".$keyword."</span>",$contact->mobile);?></td>
+                                         <td><?php echo str_ireplace($keyword,"<span class=\"text-danger\">".$keyword."</span>",$contact->phone);  if($contact->phone2)   echo ", ".str_ireplace($keyword,"<span class=\"text-danger\">".$keyword."</span>",$contact->phone2); ?></td>
                                         <td><?php echo $contact->email ?></td>
                                          
                                     </tr>

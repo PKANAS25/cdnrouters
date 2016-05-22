@@ -28,8 +28,8 @@ return [
     |
     */
 
-    //'host' => env('MAIL_HOST', 'n1plcpnl0005.prod.ams1.secureserver.net'),
-    'host' => env('MAIL_HOST', 'smptp.gmail.com'),
+    'host' => env('MAIL_HOST', 'n1plcpnl0005.prod.ams1.secureserver.net'),
+    //'host' => env('MAIL_HOST', 'smptp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,8 +55,8 @@ return [
     |
     */
 
-    //'from' => ['address' => 'webmaster@cdnrouters.com', 'name' => 'No Reply'],
-    'from' => ['address' => 'cdnrouters@gmail.com', 'name' => 'No Reply'],
+    'from' => ['address' => 'webmaster@cdnrouters.com', 'name' => 'No Reply'],
+    //'from' => ['address' => 'cdnrouters@gmail.com', 'name' => 'No Reply'],
 
     /*
     |--------------------------------------------------------------------------
@@ -83,8 +83,8 @@ return [
     */
 
     //'username' => env('485706930376fa540'),
-    //'username' => env('MAIL_USERNAME', 'webmaster@cdnrouters.com'),
-    'username' => env('MAIL_USERNAME', 'cdnrouters@gmail.com'),
+    'username' => env('MAIL_USERNAME', 'webmaster@cdnrouters.com'),
+    //'username' => env('MAIL_USERNAME', 'cdnrouters@gmail.com'),
     
 
     /*
@@ -99,8 +99,8 @@ return [
     */
 
    // 'password' => env('1e0466b898fc74'),
-    //'password' => env('MAIL_PASSWORD', 'parakkat@25'),
-    'password' => env('MAIL_PASSWORD', 'CDN@India995'),
+    'password' => env('MAIL_PASSWORD', 'parakkat@25'),
+    //'password' => env('MAIL_PASSWORD', 'CDN@India995'),
 
     /*
     |--------------------------------------------------------------------------

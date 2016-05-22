@@ -174,6 +174,7 @@ session(['subtitle' => 'filterContact']); ?>
                                      
                                 </tbody>
                             </table>
+                            <a class="btn btn-sm text-white bg-yellow-darker"  href="/excelContactsFilter/{{ $positionFilter }}/{{ $industryFilter }}/{{ $countryFilter }}/{{ $cityFilter }}"><i class="fa fa-file-excel-o"></i> Excel</a>
                             @endif
                         </div>
                         </div>

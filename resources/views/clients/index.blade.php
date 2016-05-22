@@ -41,7 +41,7 @@ session(['subtitle' => 'clientsList']); ?>
                                 <thead>
                                     <tr>
                                         <th class="nosort">#</th>
-                                        <th width="30%">Name</th>
+                                        <th width="25%">Name</th>
                                         <th>Industry</th>
                                         <th>Country</th>
                                         <th>City</th>
@@ -70,6 +70,7 @@ session(['subtitle' => 'clientsList']); ?>
                                      
                                 </tbody>
                             </table>
+                            <!-- <a class="btn btn-sm text-white bg-yellow-darker"  href="/excelClientsList"><i class="fa fa-file-excel-o"></i> Excel</a> -->
                         </div>
                         </div>
                     </div> 

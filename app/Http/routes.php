@@ -121,4 +121,10 @@ Route::get('hrm/home', 'HomeController@home');
     Route::get('/positionAddCheck', 'SettingsController@positionAddCheck');
     Route::post('hrm/settings/designations',  'SettingsController@savePosition');
 
+//-------------------------------ExcelController-----------------------------------------------    
+
+    Route::get('/excelClientsList',  'ExcelController@clientsList');
+    Route::get('/excelContactsFilter/{position}/{industry}/{country}/{city}',  'ExcelController@contactsFilter');
+
+     Route::get('/hrm/test',  'testController@index');
 });

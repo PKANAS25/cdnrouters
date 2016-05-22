@@ -99,7 +99,7 @@ session(['subtitle' => 'filterClient']); ?>
                                 <thead>
                                     <tr>
                                         <th class="nosort">#</th>
-                                        <th width="30%">Name</th>
+                                        <th width="25%">Name</th>
                                         <th>Industry</th>
                                         <th>Country</th>
                                         <th>City</th>
